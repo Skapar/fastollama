@@ -30,14 +30,14 @@ class Settings(BaseSettings):
         dev = "dev"
         prod = "prod"
 
-    PROJECT_NAME: str = "Cehcom API"
+    PROJECT_NAME: str = "Fast LLama API"
 
     # Environment settings
     ENVIRONMENT: Environment = Environment.dev  # local, dev, prod
     COUNTRY_ISO: str = "RU"
 
-    # Telegram
-    TG_TOKEN: str = ""
+    # # Telegram
+    # TG_TOKEN: str = ""
 
     # Redis
     REDIS_HOST: str = "redis"
