@@ -6,9 +6,11 @@ app = FastAPI(title="FastOllama API")
 
 router = APIRouter()
 
+
 @app.get("/")
 def root():
     return {"message": "FastOllama API is running"}
+
 
 if __name__ == "__main__":
     try:
