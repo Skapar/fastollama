@@ -50,6 +50,7 @@ curl -X POST "http://localhost:8000/api/process" -H "Content-Type: application/j
 curl -X GET "http://localhost:8000/api/history" -u test_user:secure_password
 ```
 
+## Документация Api Docs
 ```bash
 http://localhost:8000/docs
 ```
