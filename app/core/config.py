@@ -32,12 +32,6 @@ class Settings(BaseSettings):
 
     PROJECT_NAME: str = "Cehcom API"
 
-    # URI settings
-    ROOT_URL: str = f"/api"
-    API_V1_STR: str = f"{ROOT_URL}/v1"
-    DOCS_URL: str = f"{ROOT_URL}-docs/docs"
-    OPENAPI_JSON_URL: str = f"{ROOT_URL}-docs/openapi.json"
-
     # Environment settings
     ENVIRONMENT: Environment = Environment.dev  # local, dev, prod
     COUNTRY_ISO: str = "RU"
@@ -47,6 +41,17 @@ class Settings(BaseSettings):
 
     # Redis
     REDIS_HOST: str = "redis"
+    
+    # Mongo
+    MONGO_USER: str
+    MONGO_PASSWORD: str
+    MONGO_SERVER: str
+    MONGO_DB: str
+    MONGO_PORT: int
+    MONGO_URL: str = None
+    
+    # Ollama Url
+    OLLAMA_URL: str = "http://localhost:11435"
 
     # # Database settings
     POSTGRES_USER: str
@@ -60,8 +65,8 @@ class Settings(BaseSettings):
     # JWT Settings
     JWT_SECRET_KEY: str = "jwt_secret_key"
     JWT_ALGORITHM: str = "HS256"
-    ACCESS_TOKEN_EXPIRE_MINUTES: str = "100m"
-    REFRESH_TOKEN_EXPIRE_DAYS: str = "30d"
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 100
+    REFRESH_TOKEN_EXPIRE_DAYS: int = 30
 
     api: ApiPrefix = ApiPrefix()
 
@@ -80,6 +85,12 @@ class Settings(BaseSettings):
                 path=f"{values.data.get('POSTGRES_DB') or ''}",
             )
         )
+        
+    @field_validator("MONGO_URL", mode="after")
+    def assemble_mongo_connection(cls, v: str, values: FieldValidationInfo) -> str:
+        if values.data.get("MONGO_URL") is not None:
+            return values.data.get("MONGO_URL")
+        return f"mongodb://{values.data.get('MONGO_USER')}:{values.data.get('MONGO_PASSWORD')}@{values.data.get('MONGO_SERVER')}:{values.data.get('MONGO_PORT')}/{values.data.get('MONGO_DB')}"
 
 
 settings = Settings()
